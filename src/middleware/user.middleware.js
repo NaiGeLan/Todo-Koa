@@ -2,7 +2,9 @@ const bcrypt = require('bcryptjs')
 
 const {getUserInfo} = require("../service/user.service")
 
+//判断表单是否完整
 const userValidator = async (ctx,next)=>{
+    console.log(ctx.request.body)
     const { user_name,password} = ctx.request.body
      //合法性
      if(!user_name||!password){
@@ -18,6 +20,7 @@ const userValidator = async (ctx,next)=>{
       await next()
 
 }
+//查数据库表，看用户是否存在
 const verifyUser = async (ctx,next)=>{
     const {user_name} = ctx.request.body
       //合理性
@@ -32,6 +35,7 @@ const verifyUser = async (ctx,next)=>{
        }
        await next()
 }
+//将用户密码加密
 const cryptPassword =async (ctx,next)=>{
     const {password} = ctx.request.body
 
@@ -43,9 +47,8 @@ const cryptPassword =async (ctx,next)=>{
 
     await next()
 }
-
+//判断用户是否存在（不存在报错）
 const verifyLogin = async (ctx,next)=>{
-    //判断用户是否存在（不存在报错）
     const {user_name,password} = ctx.request.body
     try {
         const res = await getUserInfo({user_name})
@@ -80,25 +83,14 @@ const verifyLogin = async (ctx,next)=>{
         }
         return
     }
-    
-    
+
+
 
 }
-
-// const changePassword = async(ctx,next)=>{
-//     //获取数据
-//     const id = ctx.state.user.id
-//     const password = ctx.request.body.password
-//     console.log(id,password);
-//     //操作数据库
-
-//     ctx.body = 'change Password'
-// }
 
 module.exports = {
     userValidator,
     verifyUser,
     cryptPassword,
     verifyLogin,
-    // changePassword
 }

@@ -1,10 +1,11 @@
-const { createUser, getUserInfo,updateById } = require("../service/user.service");
+const { createUser, getUserInfo } = require("../service/user.service");
 const jwt = require('jsonwebtoken');
 const {JWT_SECRET} = require('../config/config.default')
 class UserController {
-  async register(ctx, next) {
+  //注册功能
+  async register(ctx) {
     // 1. 获取数据
-    // console.log(ctx.request.body)
+    console.log(ctx.request.body)
     const { user_name, password } = ctx.request.body;
     try {
        // 2. 操作数据库
@@ -29,7 +30,9 @@ class UserController {
       };
     }
   }
-  async login(ctx, next) {
+  //登陆功能
+  async login(ctx) {
+    console.log(ctx.request.body)
     const {user_name} = ctx.request.body
     //获取用户信息（token的payload中要记录id，user_name，is_admin）
     try {
@@ -41,28 +44,9 @@ class UserController {
         result:{
           token: jwt.sign(res,JWT_SECRET,{expiresIn:'1d'})
         }
-      } 
+      }
     }catch(err){
       console.error('用户登录失败');
-    }
-  }
-  async changePassword(ctx,next){
-    const id = ctx.state.user.id
-    const password = ctx.request.body.password
-    console.log(id,password);
-    const res = await updateById({id,password})
-    if(res>0){
-      ctx.body = {
-        code: '0',
-        message: '修改密码成功',
-        result: ''
-      }
-    }else {
-      ctx.body = {
-        code: '10007',
-        message: '修改密码失败',
-        result: ''
-      }
     }
   }
 }
