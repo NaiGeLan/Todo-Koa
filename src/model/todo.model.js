@@ -20,6 +20,7 @@ const Todos = seq.define('zd_todos',{
         allowNull: false,
         unique: false,
         comment: '是否已经完成',
+        defaultValue: 0,
     },
     user_id: {
         type: DataTypes.INTEGER,
