@@ -50,7 +50,7 @@ class todoService {
                 id: id
             }
         })
-        return res
+        return res>0? true : false
     }
 }
 module.exports = new todoService()

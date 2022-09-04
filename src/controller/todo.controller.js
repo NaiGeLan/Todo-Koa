@@ -58,11 +58,20 @@ class TodoController {
         const params = {todo_name,is_complete} 
         try {
             const res = await updateTodo(id,params)
-            ctx.body = {
-                code:0,
-                message:'编辑成功',
-                result:res
+            if(res){
+                ctx.body = {
+                    code:0,
+                    message:'编辑成功',
+                    result:res
+                }
+            }else {
+                ctx.body = {
+                    code:10005,
+                    message:'新增失败',
+                    result:res
+                }
             }
+            
         }catch(err) {
             ctx.body = {
                 code: 10003,
@@ -79,11 +88,20 @@ class TodoController {
         console.log(id);
         try {
             const res = await destroyTodos(id)
-            ctx.body = {
-                code:0,
-                message:'删除成功',
-                result:res
+            if(res){
+                ctx.body = {
+                    code:0,
+                    message:'删除成功',
+                    result:res
+                }
+            }else {
+                ctx.body = {
+                    code:10006,
+                    message:'删除失败',
+                    result:res
+                }
             }
+            
         }catch(err){
             ctx.body = {
                 code: 10004,

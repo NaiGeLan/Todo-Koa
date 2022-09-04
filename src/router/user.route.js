@@ -7,8 +7,6 @@ const {register} = require('../controller/user.controller')
 
 const {login} = require('../controller/user.controller')
 
-// const {auth} = require('../middleware/auth.middleware')
-
 //注册接口
 router.post('/register',userValidator,verifyUser,cryptPassword,register)
 //登录接口
